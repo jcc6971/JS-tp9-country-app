@@ -1,0 +1,68 @@
+// 1 - Tester le lien de l'API dans le navigateur (https://restcountries.com/v3.1/all)
+let country = [];
+let recherche;
+const cContainer = document.querySelector(".countries-container");
+
+async function importCountry() {
+  await fetch("https://restcountries.com/v3.1/all")
+    .then((res) => res.json())
+    .then((donnee) => (country = donnee));
+}
+async function diplayCountries() {
+  await importCountry();
+  country.length = rangeValue.textContent;
+  cContainer.innerHTML = country
+    .map(
+      (affiche) => `
+    <div class="card">
+    <img src=${affiche.flags.png}>
+    <h2> ${affiche.name.common}</h2>
+    <h3> ${affiche.capital}
+    <p> Population: ${affiche.population} </p>
+    </div>
+    `
+    )
+    .join("");
+}
+diplayCountries();
+
+// -------curseur------
+inputRange.addEventListener("input", (e) => {
+  e.preventDefault();
+  rangeValue.textContent = e.target.value;
+  console.log(rangeValue.textContent);
+  diplayCountries();
+});
+
+// -------entrée nom--------
+inputSearch.addEventListener("input", (e) => {
+  e.preventDefault();
+  recherche = e.target.value;
+  console.log(country);
+
+  console.log(country.name.includes("Fr"));
+});
+
+
+
+
+
+
+
+
+inputSearch.addEventListener("input", (e) => {
+    cContainer.innerHTML = country
+      .filter((affiche) => affiche.name.common.includes(e.target.value))
+      .map(
+        (affiche) =>
+          `
+    <div class="card">
+    <img src=${affiche.flags.png}>
+    <h2> ${affiche.name.common}</h2>
+    <h3> ${affiche.capital}
+    <p> Population: ${affiche.population}
+    </div>
+    `
+      );
+  });
+}
