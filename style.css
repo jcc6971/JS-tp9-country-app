@@ -34,6 +34,7 @@ input[type="range"] {
   text-align: center;
 }
 .card{
+width: 400px;
 background: rgb(39, 39, 39);
 color: whitesmoke;
 border-radius: 25px;
@@ -44,6 +45,8 @@ padding: 20px;
 
 }
 .card img{
-width: 50%;
+width: 280px;
+height: 150px;
+object-fit: cover;
 
 }
