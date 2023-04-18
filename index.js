@@ -21,7 +21,7 @@ diplayCountries();
 // -------entrée nom--------
 inputSearch.addEventListener("input", (e) => {
   e.preventDefault();
-  recherche = e.target.value;
+  recherche = e.target.value.toLowerCase();
   diplayCountries();
 });
 // // -------curseur------
@@ -56,7 +56,6 @@ async function diplayCountries() {
   else {
     country.sort(tri);
   }
-  country.length = rangeValue.textContent;
 
   cContainer.innerHTML = country
     .filter((count) =>
@@ -64,15 +63,16 @@ async function diplayCountries() {
     )
     .map((affiche) => {
       return `
-        <div class="card">
-        <img src=${affiche.flags.png}>
-        <h2> ${affiche.translations.fra.common}</h2>
-        <h3> ${affiche.capital}
-        <p> Population: ${affiche.population} </p>
-        </div>
-        `;
+    <div class="card">
+    <img src=${affiche.flags.png}>
+    <h2> ${affiche.translations.fra.common}</h2>
+    <h3> ${affiche.capital}
+    <p> Population: ${affiche.population} </p>
+    </div>
+    `;
     })
     .join("");
+  country.length = rangeValue.textContent;
   minto = false;
   maxto = false;
 }
