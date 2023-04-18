@@ -12,13 +12,17 @@ const importCountry = async () => {
     .then((res) => res.json())
     .then((donnee) => (country = donnee));
 };
+function tri(a, b) {
+  if (a.translations.fra.common < b.translations.fra.common) return -1;
+  else if (a.translations.fra.common == b.translations.fra.common) return 0;
+  else return 1;
+}
 diplayCountries();
 // -------entrée nom--------
 inputSearch.addEventListener("input", (e) => {
   e.preventDefault();
   recherche = e.target.value;
   diplayCountries();
-  console.log(recherche);
 });
 // // -------curseur------
 inputRange.addEventListener("input", (e) => {
@@ -38,22 +42,31 @@ maxToMin.addEventListener("click", () => {
   maxto = true;
   diplayCountries();
 });
-
+// -----tri alpha-----
+alpha.addEventListener("click", () => {
+  minto = false;
+  maxto = false;
+  diplayCountries();
+});
 async function diplayCountries() {
   await importCountry();
 
-  country.length = rangeValue.textContent;
-  console.log(minto);
   if (minto === true) country.sort((a, b) => a.population - b.population);
   else if (maxto === true) country.sort((a, b) => b.population - a.population);
+  else {
+    country.sort(tri);
+  }
+  country.length = rangeValue.textContent;
 
   cContainer.innerHTML = country
-    .filter((count) => count.name.common.includes(recherche))
+    .filter((count) =>
+      count.translations.fra.common.toLowerCase().includes(recherche)
+    )
     .map((affiche) => {
       return `
         <div class="card">
         <img src=${affiche.flags.png}>
-        <h2> ${affiche.name.common}</h2>
+        <h2> ${affiche.translations.fra.common}</h2>
         <h3> ${affiche.capital}
         <p> Population: ${affiche.population} </p>
         </div>
